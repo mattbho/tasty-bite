@@ -4,7 +4,7 @@ import { User as UserModel, Prisma } from '@prisma/client';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Get('user/:id')
   async getUserById(@Param('id') id: string): Promise<UserModel> {
@@ -30,5 +30,15 @@ export class UserController {
     @Body() userData: { username: string; email: string },
   ): Promise<UserModel> {
     return this.userService.createUser(userData);
+  }
+
+  @Put('user/:id')
+  async updateUser(
+    @Body() params: { id: string; username: string },
+  ): Promise<UserModel> {
+    return this.userService.updateUser({
+      where: { id: params.id },
+      data: { username: params.username },
+    });
   }
 }
