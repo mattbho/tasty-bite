@@ -40,6 +40,7 @@ Please follow the steps below to perform a database migration.
 
 1. Find or create the `.env` file
 2. Add the variable `DATABASE_URL="postgresql://<username>:<password>@localhost:5432/tasty_bite_dev?schema=public"`
+3. Run `npx prisma migrate reset`
 
 ## Running the app
 
