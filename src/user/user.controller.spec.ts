@@ -118,7 +118,6 @@ describe('AppController', () => {
     });
   });
 
-  // TODO: describe('createUsers')
   describe('createUser', () => {
     it('should create a user', async () => {
       const createUser = await controller.signupUser({
