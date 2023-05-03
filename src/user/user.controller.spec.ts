@@ -51,8 +51,15 @@ describe('AppController', () => {
                     email: 'johndoe@gmail.com',
                   }),
               ),
-
-            // TODO: add createUser Mock
+            createUser: jest
+              .fn()
+              .mockImplementation((data: Prisma.UserCreateInput) =>
+                Promise.resolve({
+                  id: user1Id,
+                  username: data.username,
+                  email: data.email,
+                }),
+              ),
           },
         },
       ],
@@ -111,5 +118,17 @@ describe('AppController', () => {
     });
   });
 
-  // TODO: describe('createUsers')
+  describe('createUser', () => {
+    it('should create a user', async () => {
+      const createUser = await controller.signupUser({
+        username: 'jasmine',
+        email: 'jasmine@jasmine.com',
+      });
+      expect(createUser).toEqual({
+        id: user1Id,
+        username: 'jasmine',
+        email: 'jasmine@jasmine.com',
+      });
+    });
+  });
 });
