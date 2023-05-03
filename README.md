@@ -32,6 +32,15 @@
 $ yarn install
 ```
 
+### Running the migrations
+
+Before you start running the application, you will need to migrate the database.
+
+Please follow the steps below to perform a database migration.
+
+1. Find or create the `.env` file
+2. Add the variable `DATABASE_URL="postgresql://<username>:<password>@localhost:5432/tasty_bite_dev?schema=public"`
+
 ## Running the app
 
 ```bash
