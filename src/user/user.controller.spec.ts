@@ -24,7 +24,7 @@ describe('AppController', () => {
                 email: 'johndoe@gmail.com',
               }),
             ),
-            users: jest.fn().mockImplementation(({ }) =>
+            users: jest.fn().mockImplementation(({}) =>
               Promise.resolve([
                 {
                   username: 'johndoe',
