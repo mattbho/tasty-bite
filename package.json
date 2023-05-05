@@ -21,13 +21,15 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,ts,tsx,jsx}": "eslint --fix" 
+    "*.{js,ts,tsx,jsx}": "eslint --fix"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mapped-types": "^1.2.2",
     "@nestjs/platform-express": "^9.0.0",
     "@prisma/client": "^4.13.0",
+    "class-validator": "^0.14.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "uuid": "^9.0.0"
