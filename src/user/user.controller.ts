@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Body, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User as UserModel } from '@prisma/client';
 import { CreateUserDto, FindAllUsersDto, UpdateUserDto } from './dto';
+import { hashPassword } from 'src/shared';
 
 @Controller()
 export class UserController {
@@ -21,7 +22,15 @@ export class UserController {
   }
 
   @Post('user')
-  async signupUser(@Body() userData: CreateUserDto): Promise<UserModel> {
+  async signupUser(
+    @Body() userParams: CreateUserDto,
+  ): Promise<Omit<UserModel, 'password'>> {
+    const { password: unHashedPassword, ...params } = userParams;
+    const hashedPassword = await hashPassword(unHashedPassword);
+    const userData = {
+      ...params,
+      password: hashedPassword,
+    };
     return this.userService.createUser(userData);
   }
 
