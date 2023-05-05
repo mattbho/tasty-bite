@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
-import { hashPassword, omitKey } from 'src/shared';
+import { passwordsMatch, hashPassword, omitKey } from 'src/shared';
 import { User } from '@prisma/client';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class AuthService {
   ): Promise<Omit<User, 'password'>> {
     const hashedPassword = await hashPassword(password);
     const user = await this.userService.user({ username });
-    if (user && user.password === hashedPassword) {
+    if (user && passwordsMatch(hashedPassword, user.password)) {
       return omitKey(user, ['password']);
     }
     return null;
