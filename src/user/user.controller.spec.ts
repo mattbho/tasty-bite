@@ -58,6 +58,7 @@ describe('AppController', () => {
                   id: user1Id,
                   username: data.username,
                   email: data.email,
+                  password: data.password,
                 }),
               ),
           },
@@ -106,8 +107,7 @@ describe('AppController', () => {
   describe('updateUsers', () => {
     it('should update user details', async () => {
       const updateParams = { username: 'foo bar' };
-      const updateUser = await controller.updateUser({
-        id: user1Id,
+      const updateUser = await controller.updateUser(user1Id, {
         ...updateParams,
       });
       expect(updateUser).toEqual({
@@ -123,11 +123,13 @@ describe('AppController', () => {
       const createUser = await controller.signupUser({
         username: 'jasmine',
         email: 'jasmine@jasmine.com',
+        password: 'some password',
       });
       expect(createUser).toEqual({
         id: user1Id,
         username: 'jasmine',
         email: 'jasmine@jasmine.com',
+        password: 'some password',
       });
     });
   });

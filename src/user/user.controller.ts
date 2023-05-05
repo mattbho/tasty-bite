@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Post, Body, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User as UserModel, Prisma } from '@prisma/client';
+import { User as UserModel } from '@prisma/client';
+import { CreateUserDto, FindAllUsersDto, UpdateUserDto } from './dto';
 
 @Controller()
 export class UserController {
@@ -14,30 +15,23 @@ export class UserController {
   @Get('users')
   async getAllUsers(
     @Body()
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.UserWhereUniqueInput;
-      where?: Prisma.UserWhereInput;
-      orderBy?: Prisma.UserOrderByWithRelationInput;
-    },
+    params: FindAllUsersDto,
   ): Promise<UserModel[]> {
     return this.userService.users(params);
   }
 
   @Post('user')
-  async signupUser(
-    @Body() userData: { username: string; email: string },
-  ): Promise<UserModel> {
+  async signupUser(@Body() userData: CreateUserDto): Promise<UserModel> {
     return this.userService.createUser(userData);
   }
 
-  @Put('user/:id')
+  @Patch('user/:id')
   async updateUser(
-    @Body() params: { id: string; username: string },
+    @Param('id') id: string,
+    @Body() params: UpdateUserDto,
   ): Promise<UserModel> {
     return this.userService.updateUser({
-      where: { id: params.id },
+      where: { id },
       data: { username: params.username },
     });
   }
