@@ -1,7 +1,16 @@
-import { Controller, Get, Param, Post, Body, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
 import { CreateUserDto, FindAllUsersDto, UpdateUserDto } from './dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { hashPassword, omitKey } from 'src/shared';
 
 type UserResponse = Omit<User, 'password'>;
@@ -10,6 +19,7 @@ type UserResponse = Omit<User, 'password'>;
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('user/:id')
   async getUserById(@Param('id') id: string): Promise<UserResponse> {
     const user = await this.userService.user({ id });
