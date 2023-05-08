@@ -1,2 +1,2 @@
-export { hashPassword, passwordsMatch } from './bcrypt';
+export { hashPassword, verifyPassword } from './bcrypt';
 export { omitKey } from './omitKey';

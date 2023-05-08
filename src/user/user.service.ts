@@ -1,7 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { User, Prisma } from '@prisma/client';
-import { omitKey } from 'src/shared';
+import { User as UserModel, Prisma } from '@prisma/client';
+
+type UserRecord = Omit<UserModel, 'password'>;
+
+const selectQuery = {
+  id: true,
+  username: true,
+  email: true,
+};
 
 @Injectable()
 export class UserService {
@@ -9,7 +16,7 @@ export class UserService {
 
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
-  ): Promise<User | null> {
+  ): Promise<UserModel> {
     return this.prisma.user.findUnique({
       where: userWhereUniqueInput,
     });
@@ -21,7 +28,7 @@ export class UserService {
     cursor?: Prisma.UserWhereUniqueInput;
     where?: Prisma.UserWhereInput;
     orderBy?: Prisma.UserOrderByWithRelationInput;
-  }): Promise<User[]> {
+  }): Promise<UserRecord[]> {
     const { skip, take, cursor, where, orderBy } = params;
     return this.prisma.user.findMany({
       skip,
@@ -29,33 +36,33 @@ export class UserService {
       cursor,
       where,
       orderBy,
+      select: selectQuery,
     });
   }
 
-  async createUser(
-    data: Prisma.UserCreateInput,
-  ): Promise<Omit<User, 'password'>> {
-    const user = await this.prisma.user.create({
+  async createUser(data: Prisma.UserCreateInput): Promise<UserRecord> {
+    return this.prisma.user.create({
       data,
+      select: selectQuery,
     });
-
-    return omitKey(user, ['password']);
   }
 
   async updateUser(params: {
     where: Prisma.UserWhereUniqueInput;
     data: Prisma.UserUpdateInput;
-  }): Promise<User> {
+  }): Promise<UserRecord> {
     const { where, data } = params;
     return this.prisma.user.update({
       data,
       where,
+      select: selectQuery,
     });
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
+  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<UserRecord> {
     return this.prisma.user.delete({
       where,
+      select: selectQuery,
     });
   }
 }
