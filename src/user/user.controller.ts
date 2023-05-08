@@ -10,8 +10,8 @@ import {
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
 import { CreateUserDto, FindAllUsersDto, UpdateUserDto } from './dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { hashPassword, omitKey } from 'src/shared';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { hashPassword, omitKey } from '../shared';
 
 type UserResponse = Omit<User, 'password'>;
 
@@ -26,6 +26,7 @@ export class UserController {
     return omitKey(user, ['password']);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('users')
   async getAllUsers(
     @Body()
@@ -34,6 +35,7 @@ export class UserController {
     return this.userService.users(params);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('user')
   async signupUser(@Body() userParams: CreateUserDto): Promise<UserResponse> {
     const { password: unHashedPassword, ...params } = userParams;
@@ -45,6 +47,7 @@ export class UserController {
     return this.userService.createUser(userData);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('user/:id')
   async updateUser(
     @Param('id') id: string,

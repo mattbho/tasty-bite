@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { User as UserModel, Prisma } from '@prisma/client';
 
 type UserRecord = Omit<UserModel, 'password'>;

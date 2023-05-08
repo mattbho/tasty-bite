@@ -58,7 +58,6 @@ describe('AppController', () => {
                   id: user1Id,
                   username: data.username,
                   email: data.email,
-                  password: data.password,
                 }),
               ),
           },
@@ -129,7 +128,6 @@ describe('AppController', () => {
         id: user1Id,
         username: 'jasmine',
         email: 'jasmine@jasmine.com',
-        password: 'some password',
       });
     });
   });
