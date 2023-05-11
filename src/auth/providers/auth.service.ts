@@ -15,9 +15,8 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<Omit<User, 'password'>> {
-    const hashedPassword = await hashPassword(password);
     const user = await this.userService.user({ username });
-    if (user && verifyPassword(hashedPassword, user.password)) {
+    if (user && (await verifyPassword(password, user.password))) {
       return omitKey(user, ['password']);
     }
     return null;

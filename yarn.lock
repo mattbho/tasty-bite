@@ -399,6 +399,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.39.0.tgz#58b536bcc843f4cd1e02a7e6171da5c040f4d44b"
   integrity sha512-kf9RB0Fg7NZfap83B3QOqOGg9QmD9yBudqQXzzOtn3i4y7ZUXe5ONeW34Gwi+TxhH4mvj72R1Zc300KUMa9Bng==
 
+"@golevelup/ts-jest@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@golevelup/ts-jest/-/ts-jest-0.3.7.tgz#6c66bd5cdea96d1052ac41a2d6c227c4a9509903"
+  integrity sha512-eoRfl9trBEt7BrQ6t3GHY/ZOcDOMBIOgqghd9qkIWMpcqQgWbU5Yf5UeHA6wwnLYpOMIJoKqazJ0cUDM79yr+g==
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"
