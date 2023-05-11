@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
-import { verifyPassword, hashPassword, omitKey } from 'src/shared';
+import { UserService } from '../../user/providers/user.service';
+import { verifyPassword, hashPassword, omitKey } from '../../shared';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 

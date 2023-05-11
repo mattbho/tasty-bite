@@ -7,11 +7,11 @@ import {
   Patch,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from '../providers/user.service';
 import { User } from '@prisma/client';
-import { CreateUserDto, FindAllUsersDto, UpdateUserDto } from './dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { hashPassword, omitKey } from '../shared';
+import { CreateUserDto, FindAllUsersDto, UpdateUserDto } from '../dto';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { hashPassword, omitKey } from '../../shared';
 
 type UserResponse = Omit<User, 'password'>;
 

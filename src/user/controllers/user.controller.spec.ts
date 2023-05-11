@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { UserService } from '../providers/user.service';
 import { Prisma } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
