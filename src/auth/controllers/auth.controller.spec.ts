@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../providers/auth.service';
-import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { User } from '@prisma/client';
 
 describe('AuthController', () => {

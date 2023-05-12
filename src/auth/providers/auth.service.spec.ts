@@ -1,7 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock } from '@golevelup/ts-jest';
-import { User } from '@prisma/client';
 import { UserService } from '../../user/providers/user.service';
 import { AuthService } from './auth.service';
 import { hashPassword } from '../../shared';
