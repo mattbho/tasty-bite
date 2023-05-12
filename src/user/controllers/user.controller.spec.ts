@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { UserService } from '../providers/user.service';
 import { Prisma } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -58,7 +58,6 @@ describe('AppController', () => {
                   id: user1Id,
                   username: data.username,
                   email: data.email,
-                  password: data.password,
                 }),
               ),
           },
@@ -129,7 +128,6 @@ describe('AppController', () => {
         id: user1Id,
         username: 'jasmine',
         email: 'jasmine@jasmine.com',
-        password: 'some password',
       });
     });
   });
