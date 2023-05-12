@@ -1,28 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from '../prisma.service';
-import { UserService } from './user.service';
+import { PrismaService } from '../../prisma.service';
+import { UserService } from '../providers/user.service';
 import { v4 as uuidv4 } from 'uuid';
 
-const userId = uuidv4();
+const userId1 = uuidv4();
+const userId2 = uuidv4();
+const userId3 = uuidv4();
 
 const userArray = [
   {
-    name: 'Test User1',
     username: 'test1@test.com',
     email: 'test1@test.com',
-    id: '4',
+    id: userId1,
   },
   {
-    name: 'Test User2',
     username: 'test2@test.com',
     email: 'test2@test.com',
-    id: userId,
+    id: userId2,
   },
   {
-    name: 'Test User3',
     username: 'test3@test.com',
     email: 'test3@test.com',
-    id: userId,
+    id: userId3,
   },
 ];
 
@@ -33,8 +32,21 @@ const db = {
     findMany: jest.fn().mockResolvedValue(userArray),
     findUnique: jest.fn().mockResolvedValue(oneUser),
     findFirst: jest.fn().mockResolvedValue(oneUser),
-    create: jest.fn().mockReturnValue(oneUser),
-    update: jest.fn().mockResolvedValue(oneUser),
+    create: jest.fn().mockImplementation(({ data }) =>
+      Promise.resolve({
+        id: data.id,
+        username: data.username,
+        email: data.email,
+      }),
+    ),
+    update: jest.fn().mockImplementation(({ data, where }) => {
+      const user = userArray.find((user) => user.id === where.id);
+      const updatedUser = {
+        ...user,
+        email: data.email,
+      };
+      return Promise.resolve(updatedUser);
+    }),
     delete: jest.fn().mockResolvedValue(oneUser),
   },
 };
@@ -78,27 +90,32 @@ describe('UserService', () => {
 
   describe('createUser', () => {
     it('should successfully insert a user', () => {
-      expect(service.createUser(oneUser)).resolves.toEqual(oneUser);
+      const userParams = {
+        ...oneUser,
+        password: 'password',
+      };
+      expect(service.createUser(userParams)).resolves.toEqual(oneUser);
     });
   });
 
-  // although this test is passing, it is not testing if the user is updated, am I doing this correctly?
   describe('updateUser', () => {
     it('should update a user based on passed in data', async () => {
       const user = await service.updateUser({
-        where: { id: '4' },
+        where: { id: userId1 },
         data: {
           email: 'changedemail1@test.com',
         },
       });
-      console.log(oneUser);
-      expect(user).toEqual(oneUser);
+      expect(user).toEqual({
+        ...oneUser,
+        email: 'changedemail1@test.com',
+      });
     });
   });
 
   describe('deleteUser', () => {
     it('should delete a user', async () => {
-      const deletedUser = await service.deleteUser({ id: '4' });
+      const deletedUser = await service.deleteUser({ id: userId1 });
       expect(deletedUser).toEqual(oneUser);
     });
 
